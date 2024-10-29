@@ -5,30 +5,30 @@ comenzi = ["guias", "ceafa", "ceafa", "papanasi", "ceafa"]  # coada FIFO
 tavi = ["tava"] * 7  # stiva LIFO
 istoric_comenzi = []
 
-# Istoric comenzi
+numar_comenzi = {"papanasi": 0, "ceafa": 0, "guias": 0}
+
+print("Comenzi:")
 while studenti and comenzi and tavi:
     student = studenti.pop(0)
     comanda = comenzi.pop(0)
-    tava = tavi.pop(0)
-    
+    tavi.pop(0)
+
     print(f"{student} a comandat {comanda}.")
-    
     istoric_comenzi.append((student, comanda))
     
-istoric_comenzi
+    numar_comenzi[comanda] += 1
+    meniu.remove(comanda)
 
-count_guias = sum(1 for _, comenzi in istoric_comenzi if comenzi == "guias")
-count_papansi = sum(1 for _, comenzi in istoric_comenzi if comenzi == "papanasi")
-count_ceafa = sum(1 for _, comenzi in istoric_comenzi if comenzi == "ceafa")
+print("\nInventar:")
+print(f"S-au comandat {numar_comenzi['guias']} guias, {numar_comenzi['ceafa']} ceafa, {numar_comenzi['papanasi']} papanasi.")
+print(f"Mai sunt {len(tavi)} tavi.")
+print(f"Mai este ceafa: {'ceafa' in meniu}.")
+print(f"Mai sunt papanasi: {'papanasi' in meniu}.")
+print(f"Mai sunt guias: {'guias' in meniu}.")
 
-tavi_ramase = len(tavi)
+total_incasari = sum(numar_comenzi[produs] * pret for produs, pret in preturi if produs in numar_comenzi)
+produse_ieftine = [produs for produs in preturi if produs[1] <= 7]
 
-ceafa_ramasa = meniu.count("ceafa")
-papanasi_ramasi = meniu.count("papanasi")
-guias_ramas = meniu.count("guias")
-
-comenzi_status = f"\nS-au comandat {count_guias} guias, {count_ceafa} ceafa si {count_papansi} papanasi."
-tavi_status = f"\nMai sunt {tavi_ramase} tavi."
-ceafa_status = f"\nMai sunt {papanasi_ramasi} papanasi."
-guias_status = f"\n{guias_ramas} guias."
-print(comenzi_status, tavi_status, ceafa_status, guias_status)
+print("\nBani:")
+print(f"Cantina a încasat: {total_incasari} lei.")
+print(f"Produse care costă cel mult 7 lei: {produse_ieftine}.")
